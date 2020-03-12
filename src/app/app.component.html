@@ -1,5 +1,61 @@
 <div class="container">
   <h1 class="title">{{ title }}</h1>
 
-  <form></form>
+  <form class="form-autores" #heroForm="ngForm" novalidate>
+    <section class="autores-quantidade" *ngIf="passo == 'inicio'">
+      <mat-form-field class="mat-form-field-full">
+        <mat-label>Quantos autores gostaria de formatar?</mat-label>
+        <input
+          type="number"
+          matInput
+          placeholder="Quantidade"
+          autocomplete="off"
+          name="quantidade"
+          [(ngModel)]="quantidade"
+        />
+      </mat-form-field>
+      <br />
+
+      <button mat-flat-button color="primary" (click)="gerarCampos()">
+        Gerar campos
+      </button>
+    </section>
+
+    <section class="autores-inputs" *ngIf="passo == 'autores'">
+      <div
+        class="lista-autores"
+        *ngFor="let autor of autoresInput; let i = index"
+      >
+        <mat-form-field class="mat-form-field-full">
+          <mat-label>Nome</mat-label>
+          <input
+            matInput
+            placeholder="Informe o nome completo"
+            autocomplete="off"
+            [name]="'autor' + i"
+            [(ngModel)]="autoresInput[i].nome"
+            [value]="autor.nome"
+          />
+        </mat-form-field>
+        <br />
+      </div>
+      <br />
+
+      <button mat-flat-button color="primary" (click)="formatar()">
+        Formatar nomes
+      </button>
+    </section>
+
+    <section class="autores-formatados" *ngIf="passo == 'formatacao'">
+      <h3 class="subtitle">Lista de nomes formatados:</h3>
+      <ul>
+        <li *ngFor="let autor of autoresResult">{{ autor }}</li>
+      </ul>
+
+      <br />
+      <button mat-flat-button color="primary" (click)="iniciar()">
+        Começar novamente
+      </button>
+    </section>
+  </form>
 </div>
